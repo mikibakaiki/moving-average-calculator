@@ -19,9 +19,9 @@ class MovingAverageCalculator(IMovingAverageCalculator):
         self.window.remove_old_events(self.current_time)
         average_duration = self.window.get_average_duration()
         result = {"date": self.current_time.strftime('%Y-%m-%d %H:%M:00'), "average_delivery_time": average_duration}
-        #print(json.dumps(result))
-        with open(self.output_file, 'a') as f:
-            f.write(json.dumps(result) + '\n')
+        print(json.dumps(result))
+        # with open(self.output_file, 'a') as f:
+        #     f.write(json.dumps(result) + '\n')
         self.current_time += timedelta(minutes=1)
 
     def process_events(self, input_file: str) -> None:
