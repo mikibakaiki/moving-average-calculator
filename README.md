@@ -135,9 +135,9 @@ Moreover, there are different input scenarios (some inputs are a hybrid of scena
 
 --- 
 <details>
-<summary>
-<h2>Backend Engineering Challenge</h2></summary>
-<br>
+
+<summary><h2>Backend Engineering Challenge</h2></summary>
+
 
 Welcome to our Engineering Challenge repository 🖖
 
