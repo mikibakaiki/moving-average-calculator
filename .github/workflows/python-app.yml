@@ -1,4 +1,4 @@
-name: Python application
+name: Moving Average Calculator
 
 on:
   push:
