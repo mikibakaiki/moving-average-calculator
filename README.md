@@ -8,9 +8,9 @@
 
 The algorithm uses the sliding window technique to traverse each minute between the first and last events. It maintains a running total of the duration, which it uses to calculate the average at each step. This avoids calculations each time a new event is processed. The `start_time`, `current_time` and `last_event_time` are used to add and remove values from the running total, ensuring the processing of each minute only once.
 
-The **time complexity** of this algorithm is ![O(N)](https://render.githubusercontent.com/render/math?math=O(N)), where ![N](https://render.githubusercontent.com/render/math?math=N) is the number of minutes between the first and last event: we will have to iterate through each minute to check the average.
+The **time complexity** of this algorithm is $O(N)$, where $N$ is the number of minutes between the first and last event: we will have to iterate through each minute to check the average.
 
-The **space complexity** is ![O(W)](https://render.githubusercontent.com/render/math?math=O(W)), where ![W](https://render.githubusercontent.com/render/math?math=W) is the window size, since we store the partial averages for each minute in the window.
+The **space complexity** is $O(W)$, where $W$ is the window size, since we store the partial averages for each minute in the window.
 
 ## Observations
 - When there are no events on file, there won't be a returning output file. Instead, and error is printed to the console: `Error: No events found in file`
@@ -136,8 +136,11 @@ Moreover, there are different input scenarios (some inputs are a hybrid of scena
 --- 
 <details>
 
-<summary><h2>Backend Engineering Challenge</h2></summary>
+<summary>
 
+## Backend Engineering Challenge
+
+</summary>
 
 Welcome to our Engineering Challenge repository 🖖
 
