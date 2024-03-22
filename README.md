@@ -6,7 +6,7 @@
 
 ## Algorithm
 
-The algorithm uses the sliding window technique to traverse each minute between the first and last events. It maintains a running total of the duration, which it uses to calculate the average at each step. This avoids calculations each time a new event is processed. The `start_time`, `current_time` and `last_event_time` are used to add and remove values from the running total, ensuring the processing of each minute only once.
+The sliding window technique is the main algorithm used. It aims to traverse each minute between the first and last events. It maintains a running total of the duration, which it uses to calculate the average duration at each iteration. This avoids extra calculations each time a new event is processed. The `start_time`, `current_time` and `last_event_time` are used to add and remove values from the running total, ensuring the processing of each minute only once.
 
 The **time complexity** of this algorithm is $O(N)$, where $N$ is the number of minutes between the first and last event: we will have to iterate through each minute to check the average.
 
@@ -14,7 +14,7 @@ The **space complexity** is $O(W)$, where $W$ is the window size, since we store
 
 ## Observations
 - When there are no events on file, there won't be a returning output file. Instead, and error is printed to the console: `Error: No events found in file`
-- When there are events that are badly formatted (a correctly formatted json file is an example :smile: ), an error will be printed to the console, but the processing will continue to the next lines.
+- When there are events that are badly formatted (a correctly formatted `json` file is an example :smile: ), an error will be printed to the console, but the processing will continue to the next lines.
 - The program *prints to the stdout* and *writes to a file*, which will have the name of the `input_file`, appended with the suffix `_result`. I wanted to have it only print to a file, but for ease of use, I thought that printing to the console would also be useful. 
 - The code is reading and processing line by line, instead of reading all the lines, and then processing all the events. This felt like the most efficient approach: for a huge number of events, there would be a big overhead in processing millions of events, and then iterating through them.
 - The events are written as they are processed, instead of storing them all on a list and then writting them at once. When the number of results is very large, storing all of them in a list could potentially use a lot of memory, impacting negatively the code's performance.
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 ```bash
 python -m moving_average_calculator.main --window_size WINDOW_SIZE --input_file INPUT_FILE
 ```
-Where the `WINDOW_SIZE` and the `INPUT_FILE` are the values you want to provide, respectively, to the window size and the input file.
+Where the `WINDOW_SIZE` and the `INPUT_FILE` are the values you want to provide, respectively, to the window size (must be greater than 0) and the input file.
 
 4. To run the base example provided, use the following command:
 
@@ -78,7 +78,7 @@ docker build -t moving-average-calculator .
 ```bash
 docker run moving-average-calculator python -m moving_average_calculator.main --window_size WINDOW_SIZE --input_file INPUT_FILE
 ```
-Where the `WINDOW_SIZE` and the `INPUT_FILE` are the values you want to provide, respectively, to the window size and the input file.
+Where the `WINDOW_SIZE` and the `INPUT_FILE` are the values you want to provide, respectively, to the window size (must be greater than 0) and the input file.
 
 3. Here's the command to run the base example: 
 ```bash
@@ -91,13 +91,12 @@ docker run moving-average-calculator python -m moving_average_calculator.main --
 To run the unit tests, you can use:
 
 ```bash
-python -m unittest discover
+coverage run -m unittest discover
 ```
 
-And to check the test coverage, you can run: 
+And to check the test of the, you can run: 
 
 ```bash
-coverage run -m unittest discover
 coverage report -m
 ```
 
@@ -106,32 +105,31 @@ coverage report -m
 To run the tests with Docker, use: (assuming you've already [built the image.](#docker)) 
 
 ```bash
-docker run moving-average-calculator python -m unittest discover
+docker run moving-average-calculator coverage run -m unittest discover
 ```
 
 And to check the test coverage: 
 
 ```bash
-docker run moving-average-calculator coverage run -m unittest discover
 docker run moving-average-calculator coverage report -m
 ```
 
 ## Tests Description
 
 I have a total of 9 unit tests which test the functionality of the code.
-Moreover, there are different input scenarios (some inputs are a hybrid of scenarios):
+Moreover, there are different input scenarios (some inputs are a hybrid of scenarios) in the `data` folder:
 
 - **Test with no events:** The expected result is that no output is written to the output file, and an error is written to the console.
 
-- **Test with one event:** This will test the basic functionality of your algorithm. The expected result is that the average delivery time for the minute of the event's timestamp is equal to the event's duration.
+- **Test with one event:** This will test the basic functionality of the algorithm. The expected result is that the average delivery time for the minute of the event's timestamp is equal to the event's duration.
 
-- **Test with multiple events at the same timestamp:** This will test how your algorithm handles multiple events occurring at the same time. The expected result is that the average delivery time for the minute of the events' timestamp is equal to the average of the events' durations.
+- **Test with multiple events at the same timestamp:** This will test how the algorithm handles multiple events occurring at the same time. The expected result is that the average delivery time for the minute of the events' timestamp is equal to the average of the events' durations.
 
-- **Test with multiple events at different timestamps:** This will test how your algorithm calculates the moving average over time. The expected result is that the average delivery time for each minute is calculated correctly based on the events in the window for that minute.
+- **Test with multiple events at different timestamps:** This will test how the algorithm calculates the moving average over time. The expected result is that the average delivery time for each minute is calculated correctly based on the events in the window for that minute.
 
-- **Test with invalid data in the input file:** This will test how your algorithm handles invalid data. The expected result is that the invalid data is skipped and does not affect the average delivery time calculation.
+- **Test with invalid data in the input file:** This will test how the algorithm handles invalid data. The expected result is that the invalid data is skipped and does not affect the average delivery time calculation.
 
-- **Test with events that have a duration of zero:** This will test how your algorithm handles events with a duration of zero. The expected result is that these events are included in the average delivery time calculation and can bring down the average delivery time.
+- **Test with events that have a duration of zero:** This will test how the algorithm handles events with a duration of zero. The expected result is that these events are included in the average delivery time calculation and can bring down the average delivery time.
 
 --- 
 <details>
