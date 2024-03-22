@@ -46,5 +46,7 @@ jobs:
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add ./media/coverage.svg
-        git commit -m "Update coverage badge"
-        git push
+        if ! git diff --quiet; then
+          git commit -m "Update coverage badge"
+          git push
+        fi
