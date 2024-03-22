@@ -1,4 +1,4 @@
-![tests](https://github.com/mikibakaiki/moving-average-calculator/actions/workflows/python-app.yml/badge.svg)
+![tests](https://github.com/mikibakaiki/moving-average-calculator/actions/workflows/python-app.yml/badge.svg?label=tests)
 
 # Notes
 
