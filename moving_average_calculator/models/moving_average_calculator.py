@@ -47,15 +47,19 @@ class MovingAverageCalculator(IMovingAverageCalculator):
             None
 
         """
+        # remove old events from the window and calculate the average delivery time
         self.window.remove_old_events(self.current_time)
         average_duration = self.window.get_average_duration()
         result = {
             "date": self.current_time.strftime('%Y-%m-%d %H:%M:00'),
             "average_delivery_time": average_duration
         }
+        # printing and writting to file for ease of use.
         print(json.dumps(result))
         with open(self.output_file, 'a', encoding='utf-8') as f:
             f.write(json.dumps(result) + '\n')
+
+        # move the current time forward by 1 minute
         self.current_time += timedelta(minutes=1)
 
     def process_events(self, input_file: str) -> None:
@@ -74,6 +78,7 @@ class MovingAverageCalculator(IMovingAverageCalculator):
 
         """
         with open(input_file, 'r', encoding='utf-8') as f:
+            # read each line from the file
             for line in f:
                 try:
                     event_data = json.loads(line)
@@ -84,7 +89,8 @@ class MovingAverageCalculator(IMovingAverageCalculator):
                 except (json.JSONDecodeError, KeyError, TypeError):
                     print("Error: Invalid data in line, skipping...")
                     continue
-
+                
+                # set the start time if it is not set
                 if self.start_time is None:
                     self.start_time = event.timestamp.replace(
                         second=0,
@@ -92,9 +98,11 @@ class MovingAverageCalculator(IMovingAverageCalculator):
                     )
                     self.current_time = self.start_time
 
+                # process the events until the current time reaches the event timestamp
                 while self.current_time < event.timestamp:
                     self.process_and_print_event()
 
+                # add the event to the window, and update the last event time
                 self.window.add_event(event)
                 self.last_event_time = event.timestamp
 

@@ -44,6 +44,7 @@ class Window(IWindow):
         Args:
             current_time (datetime): The current time.
         """
+        # Remove events that are outside the window
         while self.events and self.events[0].timestamp < current_time - self.size:
             event = self.events.popleft()
             self.total_duration -= event.duration

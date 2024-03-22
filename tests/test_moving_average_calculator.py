@@ -50,12 +50,16 @@ class MovingAverageCalculatorTests(unittest.TestCase):
         """
         Test case for the `process_events` method of the `MovingAverageCalculator` class.
 
-        This test case verifies that the `process_events` method correctly processes the events from an input file.
+        This test case verifies that the `process_events` method 
+        correctly processes the events from an input file.
 
-        The test checks that the `add_event` method is called the expected number of times, with the correct arguments.
-        It also verifies that the `process_and_print_event` method is called, and checks the values of various attributes of the `MovingAverageCalculator` instance.
+        The test checks that the `add_event` method is called the expected number of times, 
+        with the correct arguments.
+        It also verifies that the `process_and_print_event` method is called, 
+        and checks the values of various attributes of the `MovingAverageCalculator` instance.
 
-        Note: This test assumes that the `MovingAverageCalculator` class has been properly initialized with the necessary attributes.
+        Note: This test assumes that the `MovingAverageCalculator` class has been properly 
+        initialized with the necessary attributes.
 
         """
 
