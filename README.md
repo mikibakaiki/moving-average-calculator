@@ -1,5 +1,48 @@
-# Backend Engineering Challenge
+![tests](https://github.com/mikibakaiki/moving-average-calculator/actions/workflows/python-app.yml/badge.svg)
 
+# Notes
+
+- I am writing the events as they are processed, instead of storing them all on a list and then writting them at once. When the number of results is very large, storing all of them in a list could potentially use a lot of memory, impacting negatively the code's performance.
+
+- run the command after initializing the environment:
+
+`export PYTHONPATH=$PYTHONPATH:/path/to/your/directory`
+
+To run code coverage:
+
+- pip install coverage
+
+- coverage run -m unittest
+- coverage report -m
+
+
+## RUN
+
+python -m moving_average_calculator.main --window_size 2 --input_file data/window_2_deal_with_older_events.json
+
+## TESTS
+Test with no events: This will test how your algorithm handles an empty input file. The expected result is that no output is written to the output file.
+
+Test with one event: This will test the basic functionality of your algorithm. The expected result is that the average delivery time for the minute of the event's timestamp is equal to the event's duration.
+
+Test with multiple events at the same timestamp: This will test how your algorithm handles multiple events occurring at the same time. The expected result is that the average delivery time for the minute of the events' timestamp is equal to the average of the events' durations.
+
+Test with multiple events at different timestamps: This will test how your algorithm calculates the moving average over time. The expected result is that the average delivery time for each minute is calculated correctly based on the events in the window for that minute.
+
+Test with events that fall outside the window: This will test how your algorithm handles events that are older than the window. The expected result is that these events are not included in the average delivery time calculation.
+
+Test with invalid data in the input file: This will test how your algorithm handles invalid data. The expected result is that the invalid data is skipped and does not affect the average delivery time calculation.
+
+Test with large input file: This will test the performance and scalability of your algorithm. The expected result is that your algorithm can process the events in a reasonable amount of time.
+
+Test with events that have a duration of zero: This will test how your algorithm handles events with a duration of zero. The expected result is that these events are included in the average delivery time calculation and can bring down the average delivery time.
+
+
+
+
+
+
+# Backend Engineering Challenge
 
 Welcome to our Engineering Challenge repository 🖖
 
@@ -13,24 +56,24 @@ Good luck!
 
 ## Challenge Scenario
 
-At Unbabel we deal with a lot of translation data. One of the metrics we use for our clients' SLAs is the delivery time of a translation. 
+At Unbabel we deal with a lot of translation data. One of the metrics we use for our clients' SLAs is the delivery time of a translation.
 
 In the context of this problem, and to keep things simple, our translation flow is going to be modeled as only one event.
 
-### *translation_delivered*
+### _translation_delivered_
 
 Example:
 
 ```json
 {
-	"timestamp": "2018-12-26 18:12:19.903159",
-	"translation_id": "5aa5b2f39f7254a75aa4",
-	"source_language": "en",
-	"target_language": "fr",
-	"client_name": "airliberty",
-	"event_name": "translation_delivered",
-	"duration": 20,
-	"nr_words": 100
+  "timestamp": "2018-12-26 18:12:19.903159",
+  "translation_id": "5aa5b2f39f7254a75aa4",
+  "source_language": "en",
+  "target_language": "fr",
+  "client_name": "airliberty",
+  "event_name": "translation_delivered",
+  "duration": 20,
+  "nr_words": 100
 }
 ```
 
@@ -40,13 +83,13 @@ Your mission is to build a simple command line application that parses a stream 
 
 If we want to count, for each minute, the moving average delivery time of all translations for the past 10 minutes we would call your application like (feel free to name it anything you like!).
 
-	unbabel_cli --input_file events.json --window_size 10
-	
+    unbabel_cli --input_file events.json --window_size 10
+
 The input file format would be something like:
 
-	{"timestamp": "2018-12-26 18:11:08.509654","translation_id": "5aa5b2f39f7254a75aa5","source_language": "en","target_language": "fr","client_name": "airliberty","event_name": "translation_delivered","nr_words": 30, "duration": 20}
-	{"timestamp": "2018-12-26 18:15:19.903159","translation_id": "5aa5b2f39f7254a75aa4","source_language": "en","target_language": "fr","client_name": "airliberty","event_name": "translation_delivered","nr_words": 30, "duration": 31}
-	{"timestamp": "2018-12-26 18:23:19.903159","translation_id": "5aa5b2f39f7254a75bb3","source_language": "en","target_language": "fr","client_name": "taxi-eats","event_name": "translation_delivered","nr_words": 100, "duration": 54}
+    {"timestamp": "2018-12-26 18:11:08.509654","translation_id": "5aa5b2f39f7254a75aa5","source_language": "en","target_language": "fr","client_name": "airliberty","event_name": "translation_delivered","nr_words": 30, "duration": 20}
+    {"timestamp": "2018-12-26 18:15:19.903159","translation_id": "5aa5b2f39f7254a75aa4","source_language": "en","target_language": "fr","client_name": "airliberty","event_name": "translation_delivered","nr_words": 30, "duration": 31}
+    {"timestamp": "2018-12-26 18:23:19.903159","translation_id": "5aa5b2f39f7254a75bb3","source_language": "en","target_language": "fr","client_name": "taxi-eats","event_name": "translation_delivered","nr_words": 100, "duration": 54}
 
 Assume that the lines in the input are ordered by the `timestamp` key, from lower (oldest) to higher values, just like in the example input above.
 
@@ -73,14 +116,14 @@ The output file would be something in the following format.
 
 Before jumping right into implementation we advise you to think about the solution first. We will evaluate, not only if your solution works but also the following aspects:
 
-+ Simple and easy to read code. Remember that [simple is not easy](https://www.infoq.com/presentations/Simple-Made-Easy)
-+ Comment your code. The easier it is to understand the complex parts, the faster and more positive the feedback will be
-+ Consider the optimizations you can do, given the order of the input lines
-+ Include a README.md that briefly describes how to build and run your code, as well as how to **test it**
-+ Be consistent in your code. 
+- Simple and easy to read code. Remember that [simple is not easy](https://www.infoq.com/presentations/Simple-Made-Easy)
+- Comment your code. The easier it is to understand the complex parts, the faster and more positive the feedback will be
+- Consider the optimizations you can do, given the order of the input lines
+- Include a README.md that briefly describes how to build and run your code, as well as how to **test it**
+- Be consistent in your code.
 
 Feel free to, in your solution, include some your considerations while doing this challenge. We want you to solve this challenge in the language you feel most comfortable with. Our machines run Python (3.7.x or higher) or Go (1.16.x or higher). If you are thinking of using any other programming language please reach out to us first 🙏.
 
-Also, if you have any problem please **open an issue**. 
+Also, if you have any problem please **open an issue**.
 
 Good luck and may the force be with you
