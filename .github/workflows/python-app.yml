@@ -34,6 +34,7 @@ jobs:
         
     - name: Generate coverage badge
       run: |
+        rm -f ./media/coverage.svg
         coverage-badge -o ./media/coverage.svg
 
     - name: Checkout master
